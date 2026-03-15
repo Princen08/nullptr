@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { T } from '../theme';
 import ThemeToggle from './ThemeToggle';
+import { useAuth } from '../context/AuthContext';
 
 export default function Nav() {
   const loc = useLocation();
+  const { user, loginWithGoogle, logout } = useAuth();
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
@@ -58,24 +61,24 @@ export default function Nav() {
         <div style={{ display: 'flex', alignItems: 'center', gap: isMobile ? '12px' : '20px' }}>
           
           {/* Main Links */}
-          <div style={{ display: 'flex', gap: isMobile ? '16px' : '24px' }}>
-            {links.map(l => (
-              <Link key={l.path} to={l.path} style={{
-                fontSize: isMobile ? '0.85rem' : '0.95rem',
-                fontWeight: 600,
-                fontFamily: 'Poppins',
-                color: loc.pathname === l.path ? T.text : T.muted,
-                transition: 'color 0.2s ease'
-              }}
-              onMouseEnter={e => e.currentTarget.style.color = T.text}
-              onMouseLeave={e => e.currentTarget.style.color = loc.pathname === l.path ? T.text : T.muted}
-              >
-                {l.name}
-              </Link>
-            ))}
-          </div>
-
-          {!isMobile && <div style={{ width: '1px', height: '20px', background: T.border, margin: '0 8px' }} />}
+          {!isMobile && (
+            <div style={{ display: 'flex', gap: '24px', marginRight: '8px' }}>
+              {links.map(l => (
+                <Link key={l.path} to={l.path} style={{
+                  fontSize: '0.95rem',
+                  fontWeight: 600,
+                  fontFamily: 'Poppins',
+                  color: loc.pathname === l.path ? T.text : T.muted,
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseEnter={e => e.currentTarget.style.color = T.text}
+                onMouseLeave={e => e.currentTarget.style.color = loc.pathname === l.path ? T.text : T.muted}
+                >
+                  {l.name}
+                </Link>
+              ))}
+            </div>
+          )}
 
           {/* Search Button */}
           <button 
@@ -118,8 +121,83 @@ export default function Nav() {
           </button>
 
           <ThemeToggle />
+
+          {/* Auth Button/Profile */}
+          {user ? (
+            <div style={{ position: 'relative' }}>
+              <button 
+                onClick={() => setShowProfileMenu(!showProfileMenu)}
+                style={{ 
+                  width: '36px', 
+                  height: '36px', 
+                  borderRadius: '50%', 
+                  overflow: 'hidden', 
+                  border: `2px solid ${T.border}`,
+                  padding: 0,
+                  background: 'none',
+                  cursor: 'pointer'
+                }}
+              >
+                <img src={user.user_metadata.avatar_url} alt="Profile" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </button>
+              
+              {showProfileMenu && (
+                <div style={{
+                  position: 'absolute',
+                  top: '48px',
+                  right: 0,
+                  width: '200px',
+                  background: T.surface,
+                  border: `1px solid ${T.border}`,
+                  borderRadius: '12px',
+                  boxShadow: '0 10px 25px rgba(0,0,0,0.2)',
+                  padding: '12px',
+                  zIndex: 101,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}>
+                  <div style={{ padding: '0 8px 8px 8px', borderBottom: `1px solid ${T.border}`, marginBottom: '4px' }}>
+                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: T.text, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.user_metadata.full_name}</div>
+                    <div style={{ fontSize: '0.75rem', color: T.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user.email}</div>
+                  </div>
+                  {isMobile && links.map(l => (
+                    <Link key={l.path} to={l.path} onClick={() => setShowProfileMenu(false)} style={{ padding: '8px', borderRadius: '6px', fontSize: '0.9rem', color: T.text, transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = T.faint} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>{l.name}</Link>
+                  ))}
+                  <button onClick={() => { logout(); setShowProfileMenu(false); }} style={{ textAlign: 'left', padding: '8px', borderRadius: '6px', fontSize: '0.9rem', color: T.red, transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = T.faint} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>Logout</button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button 
+              onClick={loginWithGoogle}
+              style={{
+                background: T.accent,
+                color: '#fff',
+                padding: isMobile ? '8px 12px' : '8px 20px',
+                borderRadius: '8px',
+                fontSize: '0.85rem',
+                fontWeight: 700,
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: `0 4px 12px ${T.accent}30`
+              }}
+              onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-1px)'}
+              onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              Log In
+            </button>
+          )}
         </div>
       </div>
+      
+      {/* Click outside to close menu handler */}
+      {showProfileMenu && (
+        <div 
+          style={{ position: 'fixed', inset: 0, zIndex: 100 }} 
+          onClick={() => setShowProfileMenu(false)}
+        />
+      )}
     </nav>
   );
 }
