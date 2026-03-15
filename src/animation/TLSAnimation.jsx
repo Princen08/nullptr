@@ -120,12 +120,19 @@ export default function TLSAnimation() {
       }
     });
 
-    if (isPlaying && stepIdx < STEPS.length) {
+    if (isPlaying && stepIdx < STEPS.length - 1) {
        progressRef.current += dt / 1500;
        if (progressRef.current >= 1) {
           progressRef.current = 0;
           setStepIdx(s => s + 1);
-          if (stepIdx >= STEPS.length - 1) setIsPlaying(false);
+          if (stepIdx >= STEPS.length - 2) setIsPlaying(false);
+       }
+    } else if (isPlaying && stepIdx === -1) {
+       // Start from -1
+       progressRef.current += dt / 1500;
+       if (progressRef.current >= 1) {
+          progressRef.current = 0;
+          setStepIdx(0);
        }
     }
   }, [stepIdx, isPlaying]);
@@ -144,7 +151,7 @@ export default function TLSAnimation() {
     render(); return () => cancelAnimationFrame(frame);
   }, [draw]);
 
-  const currentStep = stepIdx >= 0 ? STEPS[stepIdx] : { title: "Wait to start", detail: "Ready to initiate sequence.", color: T.accent };
+  const currentStep = (stepIdx >= 0 && stepIdx < STEPS.length) ? STEPS[stepIdx] : { title: "Wait to start", detail: "Ready to initiate sequence.", color: T.accent, phase: 'READY' };
 
   return (
     <div style={{ margin: '48px 0', border: `1px solid ${T.border}`, borderRadius: '12px', overflow: 'hidden', background: T.surface }}>
