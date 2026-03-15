@@ -11,10 +11,13 @@ import About from './pages/About';
 import NotFound from './pages/NotFound';
 import CommandPalette from './components/CommandPalette';
 import MemoryScrollbar from './components/MemoryScrollbar';
+import TelemetryDashboard from './components/TelemetryDashboard';
 
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <TelemetryDashboard />
+      
       <Routes>
         {/* Full screen 404 - no Nav/Footer */}
         <Route path="/404" element={<NotFound />} />
@@ -50,6 +53,10 @@ function App() {
           :root {
             --scrollbar-width: 12px;
           }
+        }
+        @media (max-width: 768px) {
+          /* Hide telemetry on very small mobile screens to save space if needed, 
+             or we can just keep it slim. Let's keep it for now but adjust position. */
         }
       `}</style>
     </div>
