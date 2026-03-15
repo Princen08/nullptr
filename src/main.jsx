@@ -6,7 +6,6 @@ import App from './App.jsx'
 import './index.css'
 import { injectFonts } from './fonts.js'
 import { ThemeProvider } from './context/ThemeContext.jsx'
-import { AuthProvider } from './context/AuthContext.jsx'
 
 injectFonts()
 
@@ -14,11 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <HelmetProvider>
-        <AuthProvider>
-          <ThemeProvider>
-            <App />
-          </ThemeProvider>
-        </AuthProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </HelmetProvider>
     </BrowserRouter>
   </React.StrictMode>,
