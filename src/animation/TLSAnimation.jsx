@@ -92,6 +92,8 @@ export default function TLSAnimation() {
 
       const resolvedStepColor = resolveColor(s.color);
 
+      const isSmall = w < 450;
+
       if (s.hasArrow) {
         const startX = s.from === 'browser' ? browserX : serverX;
         const targetX = s.from === 'browser' ? serverX : browserX;
@@ -109,14 +111,14 @@ export default function TLSAnimation() {
           ctx.fillStyle = resolvedStepColor;
           ctx.fill();
         }
-        ctx.fillStyle = resolvedTextColor; ctx.font = '600 12px Roboto Mono'; ctx.fillText(s.packet, w / 2, sy - 12);
+        ctx.fillStyle = resolvedTextColor; ctx.font = `600 ${isSmall ? '10px' : '12px'} Roboto Mono`; ctx.fillText(s.packet, w / 2, sy - 12);
       } else {
         if (s.from === 'local') {
            ctx.beginPath(); ctx.arc(browserX, sy, 12, 0, Math.PI*2); ctx.fillStyle = hexToRgba(s.color, 0.2); ctx.fill(); 
            ctx.strokeStyle = resolvedStepColor; ctx.lineWidth = 2; ctx.stroke();
            ctx.beginPath(); ctx.arc(serverX, sy, 12, 0, Math.PI*2); ctx.fill(); ctx.stroke();
         }
-        ctx.fillStyle = resolvedTextColor; ctx.font = '600 12px Roboto'; ctx.fillText(s.title, w / 2, sy - 15);
+        ctx.fillStyle = resolvedTextColor; ctx.font = `600 ${isSmall ? '10px' : '12px'} Roboto`; ctx.fillText(s.title, w / 2, sy - 15);
       }
     });
 

@@ -119,9 +119,10 @@ export default function SimulatorCanvas({ currentContent, flyingParts, flashText
 
         // Draw content
         const items = currentContent[k] || [];
+        const itemH = 30;
+        const itemW = Math.max(zw - (w < 400 ? 5 : 20), 40);
+        
         items.forEach((item, i) => {
-          const itemH = 30;
-          const itemW = zw - 20;
           let iy;
           if (k === 'stack') {
             iy = (zy + zh) - (i + 1) * (itemH + 5);
@@ -137,7 +138,7 @@ export default function SimulatorCanvas({ currentContent, flyingParts, flashText
           ctx.stroke();
 
           ctx.fillStyle = resolvedTextColor;
-          ctx.font = '10px Roboto Mono, monospace';
+          ctx.font = `${w < 400 ? '9px' : '10px'} Roboto Mono, monospace`;
           ctx.fillText(item, z.x * w, iy + 18);
         });
       });

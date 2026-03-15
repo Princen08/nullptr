@@ -205,8 +205,12 @@ export default function EventLoopSimulator() {
         ))}
       </div>
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.2fr) minmax(0, 0.8fr)', height: '500px' }}>
-        <div style={{ position: 'relative', background: T.bg, borderRight: `1px solid ${T.border}` }}>
+      <div style={{ 
+        display: 'grid', 
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+        minHeight: '500px'
+      }}>
+        <div style={{ position: 'relative', background: T.bg, borderRight: `1px solid ${T.border}`, minHeight: '400px' }}>
           <SimulatorCanvas currentContent={currentContent} flyingParts={flyingParts} flashText={flashText} />
         </div>
         <div style={{ background: T.bg, padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>

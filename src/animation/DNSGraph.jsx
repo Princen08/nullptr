@@ -152,7 +152,8 @@ export default function DNSGraph() {
       const isActive = step.active.includes(node.id);
       const nx = node.cx * w;
       const ny = node.cy * h;
-      const r = 27;
+      const isSmall = w < 500;
+      const r = isSmall ? 20 : 27;
 
       ctx.beginPath();
       ctx.arc(nx, ny, r, 0, Math.PI * 2);
@@ -165,7 +166,7 @@ export default function DNSGraph() {
         ctx.stroke();
         
         ctx.beginPath();
-        ctx.arc(nx, ny, r + 4 + pulsing * 4, 0, Math.PI * 2);
+        ctx.arc(nx, ny, r + (isSmall ? 2 : 4) + pulsing * 4, 0, Math.PI * 2);
         ctx.fillStyle = hexToRgba(step.color, 0.1);
         ctx.fill();
       } else {
@@ -177,17 +178,17 @@ export default function DNSGraph() {
       }
 
       ctx.strokeStyle = isActive ? resolvedTextColor : hexToRgba(T.text, 0.5);
-      ctx.lineWidth = 1.5;
+      ctx.lineWidth = isSmall ? 1 : 1.5;
       drawIcon(ctx, node.id, nx, ny, r);
 
       ctx.fillStyle = isActive ? resolvedTextColor : hexToRgba(T.text, 0.7);
-      ctx.font = '600 11px Poppins, sans-serif';
+      ctx.font = `600 ${isSmall ? '9px' : '11px'} Poppins, sans-serif`;
       ctx.textAlign = 'center';
-      ctx.fillText(node.label, nx, ny + r + 16);
+      ctx.fillText(node.label, nx, ny + r + (isSmall ? 12 : 16));
       
       ctx.fillStyle = hexToRgba(T.text, 0.4);
-      ctx.font = '9px Roboto Mono, monospace';
-      ctx.fillText(node.sub, nx, ny + r + 28);
+      ctx.font = `${isSmall ? '7px' : '9px'} Roboto Mono, monospace`;
+      ctx.fillText(node.sub, nx, ny + r + (isSmall ? 22 : 28));
     });
 
     if (progressRef.current > 0 && progressRef.current < 1) {
