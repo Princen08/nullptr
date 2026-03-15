@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nullptr.dev/sitemap.xml
+Sitemap: https://nullptr.vercel.app/sitemap.xml
