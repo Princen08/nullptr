@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { T } from '../theme';
+import { useTheme } from '../context/ThemeContext';
+import ThemeToggle from '../components/ThemeToggle';
 
 export default function NotFound() {
   const [input, setInput] = useState('');
+  const { theme } = useTheme();
   const [history, setHistory] = useState([
     { type: 'error', text: 'PANIC: KERNEL_THREAD_HANG_DETECTION_EXCEEDED' },
     { type: 'error', text: 'SEGMENTATION_FAULT AT 0x0000404' },
@@ -16,7 +19,6 @@ export default function NotFound() {
 
   useEffect(() => {
     inputRef.current?.focus();
-    // Keep focus even if clicked elsewhere
     const handleClick = () => inputRef.current?.focus();
     window.addEventListener('click', handleClick);
     return () => window.removeEventListener('click', handleClick);
@@ -51,33 +53,47 @@ export default function NotFound() {
       }
       
       setInput('');
-      // Scroll to bottom after state update
       setTimeout(() => {
         window.scrollTo(0, document.body.scrollHeight);
       }, 0);
     }
   };
 
+  const isDark = theme === 'dark';
+  const terminalGreen = isDark ? '#00ff41' : T.accent;
+  const terminalBg = isDark ? '#0a0a0a' : T.bg;
+  const errorColor = isDark ? '#ff4444' : T.red;
+  const successColor = isDark ? '#60efff' : T.green;
+  const textColor = isDark ? '#fff' : T.text;
+
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0a0a0a',
-      color: '#00ff41', // Classic Terminal Green
+      background: terminalBg,
+      color: terminalGreen,
       fontFamily: 'Roboto Mono, monospace',
       padding: '40px 20px',
       fontSize: '1rem',
       lineHeight: '1.5',
       cursor: 'text',
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      transition: 'all 0.3s ease'
     }}>
+      {/* Theme Toggle Positioned in corner */}
+      <div style={{ position: 'fixed', top: '24px', right: '24px', zIndex: 100 }}>
+        <ThemeToggle />
+      </div>
+
       {/* Scanline Effect */}
       <div style={{
         position: 'fixed',
         inset: 0,
-        background: 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))',
+        background: isDark 
+          ? 'linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06))'
+          : 'linear-gradient(rgba(255, 255, 255, 0.1) 50%, rgba(0, 0, 0, 0.05) 50%)',
         zIndex: 2,
-        backgroundSize: '100% 2px, 3px 100%',
+        backgroundSize: isDark ? '100% 2px, 3px 100%' : '100% 4px',
         pointerEvents: 'none'
       }} />
 
@@ -85,14 +101,14 @@ export default function NotFound() {
       <div style={{
         position: 'fixed',
         inset: 0,
-        boxShadow: 'inset 0 0 100px rgba(0,0,0,0.5)',
+        boxShadow: isDark ? 'inset 0 0 100px rgba(0,0,0,0.5)' : 'none',
         zIndex: 3,
         pointerEvents: 'none'
       }} />
 
       <div style={{ maxWidth: '800px', margin: '0 auto', position: 'relative', zIndex: 1 }}>
         <div style={{ marginBottom: '24px', opacity: 0.8 }}>
-          <pre style={{ fontSize: '0.8rem', color: '#ff4444' }}>{`
+          <pre style={{ fontSize: '0.8rem', color: errorColor, textShadow: isDark ? `0 0 8px ${errorColor}60` : 'none' }}>{`
   _  _ _   _ _    _    ____ _____ ____  
  | \\| | | | | |  | |  |  _ \\_   _|  _ \\ 
  | .  | |_| | |__| |__| |_) || | | |_) |
@@ -104,10 +120,10 @@ export default function NotFound() {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
           {history.map((line, i) => (
             <div key={i} style={{ 
-              color: line.type === 'error' ? '#ff4444' : 
-                     line.type === 'success' ? '#60efff' :
-                     line.type === 'cmd' ? '#fff' : '#00ff41',
-              textShadow: line.type === 'error' ? '0 0 5px #ff4444' : 'none'
+              color: line.type === 'error' ? errorColor : 
+                     line.type === 'success' ? successColor :
+                     line.type === 'cmd' ? textColor : terminalGreen,
+              textShadow: (isDark && line.type === 'error') ? `0 0 5px ${errorColor}` : 'none'
             }}>
               {line.text}
             </div>
@@ -127,11 +143,11 @@ export default function NotFound() {
               background: 'transparent',
               border: 'none',
               outline: 'none',
-              color: '#fff',
+              color: textColor,
               fontFamily: 'inherit',
               fontSize: 'inherit',
               width: '100%',
-              caretColor: '#00ff41'
+              caretColor: terminalGreen
             }}
           />
         </div>
