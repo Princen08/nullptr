@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { T } from '../theme';
 import ThemeToggle from './ThemeToggle';
-import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/react';
 
 export default function Nav() {
   const loc = useLocation();
@@ -119,40 +118,6 @@ export default function Nav() {
           </button>
 
           <ThemeToggle />
-
-          <div style={{ marginLeft: isMobile ? '4px' : '16px', display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <Show when="signed-out">
-              <SignInButton mode="modal">
-                <button style={{
-                  background: 'transparent',
-                  color: T.text,
-                  border: `1px solid ${T.borderMid}`,
-                  padding: '6px 12px',
-                  borderRadius: '8px',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  transition: '0.2s'
-                }}>Login</button>
-              </SignInButton>
-              <SignUpButton mode="modal">
-                <button style={{
-                  background: T.accent,
-                  color: '#fff',
-                  border: 'none',
-                  padding: '6px 16px',
-                  borderRadius: '8px',
-                  fontSize: '0.85rem',
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  boxShadow: `0 4px 12px var(--accent-soft, rgba(99,102,241,0.3))`
-                }}>Sign Up</button>
-              </SignUpButton>
-            </Show>
-            <Show when="signed-in">
-              <UserButton appearance={{ elements: { userButtonAvatarBox: { width: 32, height: 32 } } }} />
-            </Show>
-          </div>
         </div>
       </div>
     </nav>
