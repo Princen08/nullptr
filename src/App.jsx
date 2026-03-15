@@ -8,25 +8,37 @@ import DNSBlog from './pages/DNSBlog';
 import TLSBlog from './pages/TLSBlog';
 import EventLoopBlog from './pages/EventLoopBlog';
 import About from './pages/About';
+import NotFound from './pages/NotFound';
 import CommandPalette from './components/CommandPalette';
 import MemoryScrollbar from './components/MemoryScrollbar';
 
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Nav />
-      <MemoryScrollbar />
-      <main style={{ flex: 1, paddingTop: '80px', paddingRight: 'var(--scrollbar-width, 60px)' }}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/how-https-and-tls-work" element={<TLSBlog />} />
-          <Route path="/blog/event-loop-explained" element={<EventLoopBlog />} />
-          <Route path="/blog/:slug" element={<DNSBlog />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </main>
-      <Footer />
+      <Routes>
+        {/* Full screen 404 - no Nav/Footer */}
+        <Route path="/404" element={<NotFound />} />
+        
+        <Route path="*" element={
+          <>
+            <Nav />
+            <MemoryScrollbar />
+            <main style={{ flex: 1, paddingTop: '80px', paddingRight: 'var(--scrollbar-width, 60px)' }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/how-https-and-tls-work" element={<TLSBlog />} />
+                <Route path="/blog/event-loop-explained" element={<EventLoopBlog />} />
+                <Route path="/blog/:slug" element={<DNSBlog />} />
+                <Route path="/about" element={<About />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </main>
+            <Footer />
+          </>
+        } />
+      </Routes>
+      
       <Analytics />
       <CommandPalette />
       
