@@ -1,8 +1,13 @@
 import { T } from '../theme';
+import SEO from '../components/SEO';
 
 export default function About() {
   return (
     <div className="container fade-up" style={{ padding: '64px 24px', maxWidth: '800px', minHeight: '80vh' }}>
+      <SEO 
+        title="Our Mission" 
+        description="Learn about nullptr - our dedicated mission to demystify the complex layers of modern software engineering." 
+      />
       <h1 style={{ fontSize: '2.5rem', fontFamily: 'Poppins', fontWeight: 800, marginBottom: '24px', color: T.text }}>About nullptr</h1>
       
       <p style={{ fontSize: '1.25rem', color: T.muted, lineHeight: 1.6, marginBottom: '48px' }}>

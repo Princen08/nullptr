@@ -4,6 +4,7 @@ import { T } from '../theme';
 import PostCard from '../components/PostCard';
 import { POSTS, TOPICS } from '../data/posts';
 import HeroBackground from '../animation/HeroBackground';
+import SEO from '../components/SEO';
 
 function resolveColor(colorVar) {
   if (!colorVar || !colorVar.startsWith('var')) return colorVar;
@@ -33,6 +34,10 @@ export default function Home() {
 
   return (
     <div style={{ position: 'relative' }}>
+      <SEO 
+        title="Debug the Unseen" 
+        description="A high-density technical publication exploring protocols, runtime engines, and distributed systems architecture." 
+      />
       {/* Hero Section */}
       <section style={{ 
         position: 'relative', 

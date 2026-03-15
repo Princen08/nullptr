@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { T } from '../theme';
+import SEO from '../components/SEO';
 
 export default function BlogLayout({ children, title, subtitle, tags, date, readTime, progressColor = T.accent }) {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -16,6 +17,11 @@ export default function BlogLayout({ children, title, subtitle, tags, date, read
 
   return (
     <>
+      <SEO 
+        title={title} 
+        description={subtitle} 
+        article={true}
+      />
       <div style={{ position: 'fixed', top: '80px', left: 0, right: 0, height: '3px', zIndex: 99 }}>
         <div style={{ width: `${scrollProgress}%`, height: '100%', background: progressColor, transition: 'width 0.1s' }} />
       </div>
