@@ -207,53 +207,69 @@ export default function EventLoopSimulator() {
       
       <div style={{ 
         display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-        minHeight: '500px'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
+        minHeight: '400px'
       }}>
-        <div style={{ position: 'relative', background: T.bg, borderRight: `1px solid ${T.border}`, minHeight: '400px' }}>
+        <div style={{ 
+          position: 'relative', 
+          background: T.bg, 
+          borderRight: `1px solid ${T.border}`, 
+          minHeight: '350px',
+          height: '40vh' 
+        }}>
           <SimulatorCanvas currentContent={currentContent} flyingParts={flyingParts} flashText={flashText} />
         </div>
-        <div style={{ background: T.bg, padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        <div style={{ 
+          background: T.bg, 
+          padding: '16px', 
+          display: 'flex', 
+          flexDirection: 'column', 
+          gap: '16px',
+          maxHeight: '400px',
+          overflowY: 'auto'
+        }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <div style={{ fontSize: '0.75rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '8px' }}>Source Code</div>
-            <div style={{ background: T.surface, padding: '16px', borderRadius: '8px', border: `1px solid ${T.border}`, fontFamily: 'Roboto Mono', fontSize: '12px', color: T.text, whiteSpace: 'pre', overflowX: 'auto', minHeight: '120px' }}>{currentScenario.code}</div>
+            <div style={{ fontSize: '0.7rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '8px' }}>Source Code</div>
+            <div style={{ background: T.surface, padding: '12px', borderRadius: '8px', border: `1px solid ${T.border}`, fontFamily: 'Roboto Mono', fontSize: '11px', color: T.text, whiteSpace: 'pre', overflowX: 'auto', minHeight: '100px' }}>{currentScenario.code}</div>
           </div>
           <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-            <div style={{ fontSize: '0.75rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '8px' }}>Console Output</div>
-            <div style={{ background: T.faint, borderRadius: '8px', border: `1px solid ${T.border}`, padding: '12px', flex: 1, overflowY: 'auto' }}>
-              {logs.map((log, i) => (<div key={i} style={{ color: log.color, fontFamily: 'Roboto Mono', fontSize: '0.85rem', marginBottom: '4px' }}>&gt; {log.text}</div>))}
-              {logs.length === 0 && <div style={{ color: T.muted, fontSize: '0.8rem', fontStyle: 'italic' }}>waiting for code...</div>}
+            <div style={{ fontSize: '0.7rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '8px' }}>Console Output</div>
+            <div style={{ background: T.faint, borderRadius: '8px', border: `1px solid ${T.border}`, padding: '10px', flex: 1, overflowY: 'auto', minHeight: '80px' }}>
+              {logs.map((log, i) => (<div key={i} style={{ color: log.color, fontFamily: 'Roboto Mono', fontSize: '0.8rem', marginBottom: '4px' }}>&gt; {log.text}</div>))}
+              {logs.length === 0 && <div style={{ color: T.muted, fontSize: '0.75rem', fontStyle: 'italic' }}>waiting for code...</div>}
             </div>
           </div>
         </div>
       </div>
 
-      <div style={{ padding: '24px', background: T.surfaceHigh, borderTop: `1px solid ${T.border}` }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap', gap: '20px' }}>
-          <div style={{ flex: 1, minWidth: '300px' }}>
-            <div style={{ fontSize: '0.75rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '4px' }}>
+      <div style={{ padding: '20px', background: T.surfaceHigh, borderTop: `1px solid ${T.border}` }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div>
+            <div style={{ fontSize: '0.65rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '4px' }}>
               Step {tickIdx + 2} of {currentScenario.ticks.length + 1}
             </div>
-            <div style={{ fontSize: '1.1rem', fontFamily: 'Poppins', fontWeight: 600, color: T.text }}>
-              {tickIdx === -1 ? "Idle: Ready to execute" : (currentTick.label || "Processing")}
+            <div style={{ fontSize: '1rem', fontFamily: 'Poppins', fontWeight: 600, color: T.text }}>
+              {tickIdx === -1 ? "Idle: Ready" : (currentTick.label || "Processing")}
             </div>
-            <div style={{ fontSize: '0.9rem', color: T.muted, marginTop: '4px' }}>
+            <div style={{ fontSize: '0.85rem', color: T.muted, marginTop: '2px' }}>
               {currentTick.desc}
             </div>
           </div>
           
-          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '12px' }}>
-               <span style={{ fontSize: '0.7rem', color: T.muted, fontFamily: 'Poppins' }}>SPEED</span>
-               <input type="range" min="1" max="10" value={speed} onChange={e => setSpeed(parseInt(e.target.value))} style={{ width: '80px', accentColor: T.accent }} />
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginRight: '8px' }}>
+               <span style={{ fontSize: '0.65rem', color: T.muted, fontFamily: 'Poppins' }}>SPEED</span>
+               <input type="range" min="1" max="10" value={speed} onChange={e => setSpeed(parseInt(e.target.value))} style={{ width: '60px', accentColor: T.accent }} />
             </div>
 
-            <button onClick={() => resetSimulator()} style={{ padding: '8px 16px', background: 'transparent', color: T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.85rem', fontWeight: 600 }}>Reset</button>
-            <button onClick={() => runTick(-1)} disabled={tickIdx === -1} style={{ padding: '8px 16px', background: 'transparent', color: tickIdx === -1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.85rem' }}>Back</button>
-            <button onClick={() => runTick(1)} disabled={tickIdx >= currentScenario.ticks.length - 1} style={{ padding: '8px 16px', background: 'transparent', color: tickIdx >= currentScenario.ticks.length - 1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.85rem' }}>Next</button>
-            <button onClick={() => { if (tickIdx >= currentScenario.ticks.length - 1) resetSimulator(); setIsPlaying(!isPlaying); }} style={{ padding: '8px 20px', background: isPlaying ? T.surface : T.accent, color: isPlaying ? T.text : '#fff', border: isPlaying ? `1px solid ${T.borderMid}` : 'none', borderRadius: '8px', fontSize: '0.85rem', fontWeight: 700, boxShadow: isPlaying ? 'none' : `0 4px 12px rgba(99,102,241,0.2)` }}>
-              {isPlaying ? 'Pause' : 'Auto Play'}
-            </button>
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button onClick={() => resetSimulator()} style={{ padding: '6px 12px', background: 'transparent', color: T.text, border: `1px solid ${T.borderMid}`, borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600 }}>Reset</button>
+              <button onClick={() => runTick(-1)} disabled={tickIdx === -1} style={{ padding: '6px 12px', background: 'transparent', color: tickIdx === -1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '6px', fontSize: '0.75rem' }}>Back</button>
+              <button onClick={() => runTick(1)} disabled={tickIdx >= currentScenario.ticks.length - 1} style={{ padding: '6px 12px', background: 'transparent', color: tickIdx >= currentScenario.ticks.length - 1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '6px', fontSize: '0.75rem' }}>Next</button>
+              <button onClick={() => { if (tickIdx >= currentScenario.ticks.length - 1) resetSimulator(); setIsPlaying(!isPlaying); }} style={{ padding: '6px 16px', background: isPlaying ? T.surface : T.accent, color: isPlaying ? T.text : '#fff', border: isPlaying ? `1px solid ${T.borderMid}` : 'none', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 700 }}>
+                {isPlaying ? 'Pause' : 'Play'}
+              </button>
+            </div>
           </div>
         </div>
 
