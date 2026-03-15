@@ -6,6 +6,7 @@ export default function TelemetryDashboard() {
   const [uptime, setUptime] = useState(0);
   const [dataMB, setDataMB] = useState(() => 0.85 + Math.random() * 0.5); 
   const [interrupts, setInterrupts] = useState(0);
+  const [isMinimized, setIsMinimized] = useState(false);
   const startTimeRef = useRef(null);
   const lastScrollPos = useRef(0);
   const location = useLocation();
@@ -67,7 +68,7 @@ export default function TelemetryDashboard() {
   };
 
   return (
-    <div className="telemetry-panel" style={{
+    <div className={`telemetry-panel ${isMinimized ? 'minimized' : ''}`} style={{
       position: 'fixed',
       bottom: '24px',
       left: '24px',
@@ -77,37 +78,78 @@ export default function TelemetryDashboard() {
       WebkitBackdropFilter: 'blur(12px)',
       border: `1px solid ${T.border}`,
       borderRadius: '12px',
-      padding: '16px',
-      width: '200px',
+      padding: isMinimized ? '8px 12px' : '16px',
+      width: isMinimized ? 'auto' : '200px',
       fontFamily: 'Roboto Mono, monospace',
       boxShadow: '0 8px 32px rgba(0,0,0,0.3)',
-      pointerEvents: 'none',
+      pointerEvents: 'auto', // Now needs pointer events for toggle
       userSelect: 'none',
       display: 'flex',
       flexDirection: 'column',
-      gap: '12px',
-      transition: 'opacity 0.3s ease, transform 0.3s ease'
-    }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', borderBottom: `1px solid ${T.border}`, paddingBottom: '8px', marginBottom: '4px' }}>
-        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: T.green, boxShadow: `0 0 10px ${T.green}` }} />
-        <span style={{ fontSize: '0.65rem', fontWeight: 800, color: T.text, letterSpacing: '1px' }}>SYSTEM_TELEMETRY</span>
+      gap: isMinimized ? '0' : '12px',
+      transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      cursor: isMinimized ? 'pointer' : 'default'
+    }}
+    onClick={() => isMinimized && setIsMinimized(false)}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: isMinimized ? 'none' : `1px solid ${T.border}`, paddingBottom: isMinimized ? '0' : '8px', marginBottom: isMinimized ? '0' : '4px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: T.green, boxShadow: `0 0 10px ${T.green}` }} />
+          <span style={{ fontSize: '0.65rem', fontWeight: 800, color: T.text, letterSpacing: '1px' }}>SYS_TLRY</span>
+        </div>
+        
+        <button 
+          onClick={(e) => { e.stopPropagation(); setIsMinimized(!isMinimized); }}
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            color: T.muted, 
+            cursor: 'pointer', 
+            display: 'flex', 
+            alignItems: 'center', 
+            padding: '2px',
+            transition: 'color 0.2s'
+          }}
+          onMouseEnter={e => e.currentTarget.style.color = T.text}
+          onMouseLeave={e => e.currentTarget.style.color = T.muted}
+        >
+          {isMinimized ? (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <polyline points="9 21 3 21 3 15"></polyline>
+              <line x1="21" y1="3" x2="14" y2="10"></line>
+              <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+          ) : (
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="4 14 10 14 10 20"></polyline>
+              <polyline points="20 10 14 10 14 4"></polyline>
+              <line x1="14" y1="10" x2="21" y2="3"></line>
+              <line x1="10" y1="14" x2="3" y2="21"></line>
+            </svg>
+          )}
+        </button>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-        <StatItem label="UPTIME" value={formatUptime(uptime)} color={T.accent} />
-        <StatItem label="DATA_RX" value={`${dataMB.toFixed(2)} MB`} color={T.purple} />
-        <StatItem label="INTERRUPTS" value={interrupts.toLocaleString()} color={T.amber} />
-      </div>
+      {!isMinimized && (
+        <>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <StatItem label="UPTIME" value={formatUptime(uptime)} color={T.accent} />
+            <StatItem label="DATA_RX" value={`${dataMB.toFixed(2)} MB`} color={T.purple} />
+            <StatItem label="INTERRUPTS" value={interrupts.toLocaleString()} color={T.amber} />
+          </div>
 
-      <div style={{ marginTop: '4px', height: '2px', background: T.faint, borderRadius: '1px', overflow: 'hidden', position: 'relative' }}>
-        <div style={{ 
-          position: 'absolute', 
-          height: '100%', 
-          width: '30%', 
-          background: T.accent, 
-          animation: 'telemetryPulse 2s infinite ease-in-out' 
-        }} />
-      </div>
+          <div style={{ marginTop: '4px', height: '2px', background: T.faint, borderRadius: '1px', overflow: 'hidden', position: 'relative' }}>
+            <div style={{ 
+              position: 'absolute', 
+              height: '100%', 
+              width: '30%', 
+              background: T.accent, 
+              animation: 'telemetryPulse 2s infinite ease-in-out' 
+            }} />
+          </div>
+        </>
+      )}
 
       <style>{`
         @keyframes telemetryPulse {
@@ -116,8 +158,8 @@ export default function TelemetryDashboard() {
         }
         @media (max-width: 768px) {
           .telemetry-panel {
-            width: 140px !important;
-            padding: 10px !important;
+            width: ${isMinimized ? 'auto' : '140px'} !important;
+            padding: ${isMinimized ? '6px 10px' : '10px'} !important;
             bottom: 12px !important;
             left: 12px !important;
             gap: 6px !important;
