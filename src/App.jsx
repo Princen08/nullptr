@@ -8,6 +8,7 @@ import DNSBlog from './pages/DNSBlog';
 import TLSBlog from './pages/TLSBlog';
 import EventLoopBlog from './pages/EventLoopBlog';
 import About from './pages/About';
+import CommandPalette from './components/CommandPalette';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
       </main>
       <Footer />
       <Analytics />
+      <CommandPalette />
     </div>
   );
 }

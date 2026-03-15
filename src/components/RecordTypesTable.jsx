@@ -25,7 +25,7 @@ export default function RecordTypesTable() {
           </tr>
         </thead>
         <tbody>
-          {records.map((r, i) => (
+          {records.map((r) => (
             <tr key={r.type} style={{ borderBottom: `1px solid ${T.border}` }}>
               <td style={{ padding: '16px', fontFamily: 'Roboto Mono', color: T.accent, fontSize: '0.9rem' }}>{r.type}</td>
               <td style={{ padding: '16px', color: T.muted, fontSize: '0.95rem' }}>{r.desc}</td>

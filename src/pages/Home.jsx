@@ -1,4 +1,3 @@
-import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { T } from '../theme';
 import PostCard from '../components/PostCard';
