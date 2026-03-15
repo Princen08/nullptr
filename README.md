@@ -1,16 +1,63 @@
-# React + Vite
+# NullPtr Engineering Blog 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**NullPtr** is a high-density technical publication exploring the internals of protocols, runtime engines, and distributed systems. It's built for developers who want to understand "the how" and "the why" behind the software they use.
 
-Currently, two official plugins are available:
+![NullPtr Landing Page Preview](public/favicon.svg) <!-- Replace with actual screenshot when available -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## ✨ Features
 
-## React Compiler
+-   **Interactive Handshakes**: Visualize low-level protocols like **TLS 1.3** and **DNS Recursive Resolution** in real-time.
+-   **Runtime Simulations**: A custom HTML5 Canvas engine that dissects the **JavaScript Event Loop**, including the Call Stack, Microtask Queue, and Web APIs.
+-   **Adaptive Design System**: A premium UI built with a custom theme engine supporting **Dark** and **Light** modes.
+-   **Modern Tech Stack**: Leveraging **React 18**, **Vite**, and **HTML5 Canvas** for high-performance interactive visualizations.
+-   **Scientific Clarity**: 3D layered visualizations and precise technical Dissections.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠 Project Structure
 
-## Expanding the ESLint configuration
+The codebase is organized logically to ensure maintainability and scientific accuracy:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+-   `src/animation/`: All interactive simulations and Canvas-based logic (DNS, TLS, Event Loop).
+-   `src/pages/`: Technical articles and page-level entry points.
+-   `src/components/`: Reusable UI modules (Code blocks, Stat grids, Info cards).
+-   `src/layouts/`: The standard `BlogLayout` for long-form technical content.
+-   `src/context/`: Global state management for the Theme system.
+-   `src/data/`: Centralized post metadata and technical configuration.
+
+## 🚀 Getting Started
+
+Ensure you have [Node.js](https://nodejs.org/) installed, then run the following commands:
+
+1.  **Clone the Repository**
+    ```bash
+    git clone https://github.com/Princen08/nullptr.git
+    cd nullptr
+    ```
+
+2.  **Install Dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Run Development Server**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for Production**
+    ```bash
+    npm run build
+    ```
+
+## 📖 Key Articles
+
+-   **How the DNS Works**: Tracing recursive queries from Root to Authority.
+-   **TLS 1.3 Handshake Explained**: The cryptographic dance of modern web security.
+-   **JavaScript Event Loop Dissected**: Mastering asynchronous execution.
+
+## 🤝 Contributing
+
+NullPtr is an open engineering platform. If you find a technical inaccuracy or want to add a new simulation, feel free to open a PR or Issue.
+
+---
+
+> Created where code meets clarity. &copy; 2026 NullPtr Engineering.
