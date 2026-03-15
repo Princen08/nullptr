@@ -25,6 +25,7 @@ export default function Nav() {
       zIndex: 100,
       display: 'flex',
       alignItems: 'center',
+      paddingRight: 'var(--scrollbar-width, 60px)',
     }}>
       <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Link to="/" style={{ fontSize: '1.25rem', fontWeight: 800, fontFamily: 'Poppins', letterSpacing: '-0.5px', color: T.text }}>

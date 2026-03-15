@@ -9,12 +9,14 @@ import TLSBlog from './pages/TLSBlog';
 import EventLoopBlog from './pages/EventLoopBlog';
 import About from './pages/About';
 import CommandPalette from './components/CommandPalette';
+import MemoryScrollbar from './components/MemoryScrollbar';
 
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <Nav />
-      <main style={{ flex: 1, paddingTop: '80px' }}>
+      <MemoryScrollbar />
+      <main style={{ flex: 1, paddingTop: '80px', paddingRight: 'var(--scrollbar-width, 60px)' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/blog" element={<Blog />} />
@@ -27,6 +29,17 @@ function App() {
       <Footer />
       <Analytics />
       <CommandPalette />
+      
+      <style>{`
+        :root {
+          --scrollbar-width: 60px;
+        }
+        @media (max-width: 768px) {
+          :root {
+            --scrollbar-width: 12px;
+          }
+        }
+      `}</style>
     </div>
   );
 }

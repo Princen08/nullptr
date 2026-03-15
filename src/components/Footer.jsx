@@ -9,7 +9,8 @@ export default function Footer() {
       marginTop: 'auto',
       background: T.surface,
       position: 'relative',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      paddingRight: 'var(--scrollbar-width, 60px)'
     }}>
       <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', height: '1px', background: `linear-gradient(90deg, transparent, ${T.accent}, transparent)`, opacity: 0.3 }} />
       
