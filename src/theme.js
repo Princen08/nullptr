@@ -1,0 +1,18 @@
+export const T = {
+  bg:          "var(--bg)",
+  surface:     "var(--surface)",
+  surfaceHigh: "var(--surface-high)",
+  border:      "var(--border)",
+  borderMid:   "var(--border-mid)",
+  text:        "var(--text)",
+  muted:       "var(--muted)",
+  faint:       "var(--faint)",
+  accent:      "var(--accent)",
+  accentSoft:  "var(--accent-soft)",
+  green:       "var(--green)",
+  amber:       "var(--amber)",
+  red:         "var(--red)",
+  blue:        "var(--blue)",
+  purple:      "var(--purple)",
+  navBg:       "var(--nav-bg)",
+};
