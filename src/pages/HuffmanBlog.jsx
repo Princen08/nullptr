@@ -37,38 +37,7 @@ function getCanvasColors() {
 }
 
 const COLORS = ['#8b5cf6', '#10b981', '#f59e0b', '#f43f5e', '#3b82f6', '#d946ef', '#f97316', '#22d3ee'];
-
-const CtrlBtn = ({ children, onClick, disabled, variant }) => {
-  const getBg = () => {
-    if (variant === 'primary') return T.accent;
-    if (variant === 'green') return T.green;
-    if (variant === 'red') return T.red;
-    return T.surfaceHigh;
-  };
-  return (
-    <button
-      onClick={onClick}
-      disabled={disabled}
-      style={{
-        padding: '10px 22px',
-        borderRadius: '8px',
-        fontSize: '0.8rem',
-        fontWeight: 700,
-        background: getBg(),
-        color: variant ? '#000' : T.text,
-        border: `1px solid ${T.border}`,
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
-        transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-        fontFamily: 'Poppins, sans-serif',
-        boxShadow: variant === 'primary' ? `0 4px 12px var(--accent-soft)` : 'none'
-      }}
-    >
-      {children}
-    </button>
-  );
-};
-
+// Removed legacy CtrlBtn in favor of inline unified responsive footer components
 // --- HUFFMAN LOGIC ---
 
 class Node {
@@ -463,18 +432,37 @@ function HuffmanSimulator() {
       </div>
 
       {/* Footer Controls */}
-      <div style={{ padding: '32px', background: T.surfaceHigh, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-         <div style={{ display: 'flex', gap: '16px' }}>
-            <CtrlBtn onClick={() => setIdx(i => Math.max(0, i-1))} disabled={idx === 0}>BACK</CtrlBtn>
-            <CtrlBtn onClick={() => setIdx(i => Math.min(steps.length-1, i+1))} disabled={idx === steps.length - 1}>NEXT</CtrlBtn>
-            <CtrlBtn variant={auto ? 'red' : 'green'} onClick={() => setAuto(!auto)}>{auto ? 'PAUSE' : 'AUTO RUN'}</CtrlBtn>
-            <CtrlBtn onClick={() => setIdx(0)}>RESET</CtrlBtn>
-         </div>
-         <div style={{ display: 'flex', gap: '10px' }}>
-            {steps.map((_, i) => (
-              <div key={i} style={{ width: '10px', height: '10px', borderRadius: '50%', background: i === idx ? T.accent : T.borderMid, transition: '0.3s' }} />
-            ))}
-         </div>
+      <div style={{ padding: '24px', background: T.surfaceHigh, borderTop: `1px solid ${T.border}` }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', textAlign: 'center' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'center' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', width: '100%' }}>
+                <button onClick={() => setIdx(0)} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600 }}>Reset</button>
+                <button onClick={() => setIdx(i => Math.max(0, i-1))} disabled={idx === 0} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: idx === 0 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600 }}>Back</button>
+                <button onClick={() => setIdx(i => Math.min(steps.length-1, i+1))} disabled={idx === steps.length - 1} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: idx === steps.length - 1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600 }}>Next</button>
+              </div>
+              <button 
+                onClick={() => { if (idx >= steps.length - 1) setIdx(0); setAuto(!auto); }} 
+                style={{ 
+                  width: '100%', maxWidth: '316px', padding: '12px 0', 
+                  background: auto ? T.surface : T.accent, 
+                  color: auto ? T.text : '#fff', 
+                  border: auto ? `1px solid ${T.borderMid}` : 'none', 
+                  borderRadius: '8px', fontSize: '0.85rem', fontWeight: 700, 
+                  boxShadow: auto ? 'none' : `0 4px 12px rgba(99,102,241,0.2)` 
+                }}
+              >
+                {auto ? 'Pause Simulation' : 'Auto Play Simulation'}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: '4px', marginTop: '24px' }}>
+          {steps.map((_, i) => (
+            <div key={i} style={{ flex: 1, height: '4px', background: i <= idx ? T.accent : T.borderMid, borderRadius: '2px', transition: 'background 0.3s' }} />
+          ))}
+        </div>
       </div>
     </div>
   );
