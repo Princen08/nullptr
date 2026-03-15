@@ -3,6 +3,7 @@ import PostCard from '../components/PostCard';
 import { T } from '../theme';
 import { POSTS, CATEGORIES } from '../data/posts';
 import SEO from '../components/SEO';
+import BinaryShadow from '../components/BinaryShadow';
 
 export default function Blog() {
   const [search, setSearch] = useState('');
@@ -24,9 +25,11 @@ export default function Blog() {
         description="Deep dives into networking, security, and low-level system internals. Explore our latest technical dissections." 
       />
       <header style={{ marginBottom: '64px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: '3.5rem', fontFamily: 'Poppins', fontWeight: 800, color: T.text, marginBottom: '16px' }}>Engineering Blog</h1>
+        <h1 style={{ fontSize: '3.5rem', fontFamily: 'Poppins', fontWeight: 800, color: T.text, marginBottom: '16px' }}>
+          <BinaryShadow>Engineering Blog</BinaryShadow>
+        </h1>
         <p style={{ color: T.muted, fontSize: '1.2rem', maxWidth: '600px', margin: '0 auto' }}>
-          Deep dives into networking, security, and low-level system internals.
+          <BinaryShadow>Deep dives into networking, security, and low-level system internals.</BinaryShadow>
         </p>
       </header>
 

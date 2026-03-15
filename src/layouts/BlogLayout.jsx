@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { T } from '../theme';
 import SEO from '../components/SEO';
+import BinaryShadow from '../components/BinaryShadow';
 
 export default function BlogLayout({ children, title, subtitle, tags, date, readTime, progressColor = T.accent }) {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -38,11 +39,11 @@ export default function BlogLayout({ children, title, subtitle, tags, date, read
             </div>
           )}
           <h1 style={{ fontSize: '3rem', fontFamily: 'Poppins', fontWeight: 800, color: T.text, lineHeight: 1.2, marginBottom: '24px' }}>
-            {title}
+            <BinaryShadow>{title}</BinaryShadow>
           </h1>
           {subtitle && (
             <p style={{ fontSize: '1.25rem', color: T.muted, marginBottom: '32px', fontFamily: 'Poppins' }}>
-              {subtitle}
+              <BinaryShadow>{subtitle}</BinaryShadow>
             </p>
           )}
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>

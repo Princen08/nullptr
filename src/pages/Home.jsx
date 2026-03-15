@@ -4,6 +4,7 @@ import PostCard from '../components/PostCard';
 import { POSTS, TOPICS } from '../data/posts';
 import HeroBackground from '../animation/HeroBackground';
 import SEO from '../components/SEO';
+import BinaryShadow from '../components/BinaryShadow';
 
 function resolveColor(colorVar) {
   if (!colorVar || !colorVar.startsWith('var')) return colorVar;
@@ -76,13 +77,15 @@ export default function Home() {
           marginBottom: '24px',
           letterSpacing: '-2px'
         }}>
-          Debug the <br /> 
+          <BinaryShadow>Debug the</BinaryShadow> <br /> 
           <span style={{ 
             background: `linear-gradient(to right, ${T.accent}, #a78bfa)`, 
             WebkitBackgroundClip: 'text', 
             WebkitTextFillColor: 'transparent',
             display: 'inline-block'
-          }}>Unseen.</span>
+          }}>
+            <BinaryShadow>Unseen.</BinaryShadow>
+          </span>
         </h1>
         
         <p className="fade-up" style={{ 
@@ -93,7 +96,7 @@ export default function Home() {
           fontFamily: 'Poppins',
           lineHeight: 1.6
         }}>
-          A deep-tech engineering publication exploring the internals of protocols, runtime engines, and distributed systems.
+          <BinaryShadow>A deep-tech engineering publication exploring the internals of protocols, runtime engines, and distributed systems.</BinaryShadow>
         </p>
         
         <div className="fade-up" style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>

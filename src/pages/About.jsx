@@ -1,5 +1,6 @@
 import { T } from '../theme';
 import SEO from '../components/SEO';
+import BinaryShadow from '../components/BinaryShadow';
 
 export default function About() {
   return (
@@ -8,10 +9,12 @@ export default function About() {
         title="Our Mission" 
         description="Learn about nullptr - our dedicated mission to demystify the complex layers of modern software engineering." 
       />
-      <h1 style={{ fontSize: '2.5rem', fontFamily: 'Poppins', fontWeight: 800, marginBottom: '24px', color: T.text }}>About nullptr</h1>
+      <h1 style={{ fontSize: '2.5rem', fontFamily: 'Poppins', fontWeight: 800, marginBottom: '24px', color: T.text }}>
+        <BinaryShadow>About nullptr</BinaryShadow>
+      </h1>
       
       <p style={{ fontSize: '1.25rem', color: T.muted, lineHeight: 1.6, marginBottom: '48px' }}>
-        We write deep technical content for developers who want to understand how things actually work under the hood.
+        <BinaryShadow>We write deep technical content for developers who want to understand how things actually work under the hood.</BinaryShadow>
       </p>
 
       <section style={{ marginBottom: '48px' }}>
