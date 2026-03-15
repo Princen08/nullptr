@@ -7,6 +7,7 @@ import Blog from './pages/Blog';
 import DNSBlog from './pages/DNSBlog';
 import TLSBlog from './pages/TLSBlog';
 import EventLoopBlog from './pages/EventLoopBlog';
+import HuffmanBlog from './pages/HuffmanBlog';
 import About from './pages/About';
 import NotFound from './pages/NotFound';
 import CommandPalette from './components/CommandPalette';
@@ -32,6 +33,7 @@ function App() {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/how-https-and-tls-work" element={<TLSBlog />} />
                 <Route path="/blog/event-loop-explained" element={<EventLoopBlog />} />
+                <Route path="/blog/huffman-coding-explained" element={<HuffmanBlog />} />
                 <Route path="/blog/:slug" element={<DNSBlog />} />
                 <Route path="/about" element={<About />} />
                 <Route path="*" element={<NotFound />} />

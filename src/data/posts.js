@@ -1,5 +1,14 @@
 export const POSTS = [
   { 
+    slug: 'huffman-coding-explained', 
+    title: 'How Huffman Coding Works', 
+    subtitle: 'The Algorithm Behind ZIP, GZIP & PNG Compression',
+    excerpt: 'Explore the lossless compression algorithm powering ZIP and the web through our interactive tree builder.', 
+    tags: ['Compression', 'Algorithms', 'Data Structures'], 
+    readTime: '8 min', 
+    date: 'Mar 20, 2026' 
+  },
+  { 
     slug: 'how-dns-works', 
     title: 'How DNS Works', 
     subtitle: 'Resolving the Web',
