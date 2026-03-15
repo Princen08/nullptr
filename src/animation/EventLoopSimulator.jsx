@@ -138,7 +138,6 @@ export default function EventLoopSimulator() {
         if (t.type === 'push') { if (t.zone === 'stack') tempStack.push(t.label); else if (t.zone === 'apis') tempApis.push(t.label); else if (t.zone === 'micro') tempMicro.push(t.label); else if (t.zone === 'task') tempTask.push(t.label); }
         else if (t.type === 'pop') { if (t.zone === 'stack') tempStack.pop(); else if (t.zone === 'apis') tempApis.shift(); else if (t.zone === 'micro') tempMicro.shift(); else if (t.zone === 'task') tempTask.shift(); if (t.log) tempLogs.push({ text: t.log, color: T.accent }); }
         else if (t.type === 'move') { 
-          // Move removes from source, adds to target (ignoring flying for instant state rebuild)
           if (t.from === 'stack') tempStack.pop(); else if (t.from === 'apis') tempApis.shift(); else if (t.from === 'micro') tempMicro.shift(); else if (t.from === 'task') tempTask.shift();
           if (t.to === 'stack') tempStack.push(t.label); else if (t.to === 'apis') tempApis.push(t.label); else if (t.to === 'micro') tempMicro.push(t.label); else if (t.to === 'task') tempTask.push(t.label);
         }
@@ -195,7 +194,7 @@ export default function EventLoopSimulator() {
   }, [isPlaying, tickDelay, runTick]);
 
   const currentScenario = SCENARIOS[activeTab];
-  const currentTick = tickIdx >= 0 ? currentScenario.ticks[tickIdx] : { desc: "Wait for execution to start (Step 0)" };
+  const currentTick = tickIdx >= 0 ? currentScenario.ticks[tickIdx] : { desc: "Wait for execution to start" };
 
   return (
     <div style={{ margin: '48px 0', border: `1px solid ${T.border}`, borderRadius: '12px', overflow: 'hidden', background: T.surface }}>
@@ -205,29 +204,11 @@ export default function EventLoopSimulator() {
         ))}
       </div>
       
-      <div style={{ 
-        display: 'grid', 
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', 
-        minHeight: '400px'
-      }}>
-        <div style={{ 
-          position: 'relative', 
-          background: T.bg, 
-          borderRight: `1px solid ${T.border}`, 
-          minHeight: '350px',
-          height: '40vh' 
-        }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+        <div style={{ position: 'relative', background: T.bg, borderRight: `1px solid ${T.border}`, minHeight: '350px', height: '40vh' }}>
           <SimulatorCanvas currentContent={currentContent} flyingParts={flyingParts} flashText={flashText} />
         </div>
-        <div style={{ 
-          background: T.bg, 
-          padding: '16px', 
-          display: 'flex', 
-          flexDirection: 'column', 
-          gap: '16px',
-          maxHeight: '400px',
-          overflowY: 'auto'
-        }}>
+        <div style={{ background: T.bg, padding: '16px', display: 'flex', flexDirection: 'column', gap: '16px', maxHeight: '400px', overflowY: 'auto' }}>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ fontSize: '0.7rem', fontFamily: 'Roboto Mono', color: T.accent, textTransform: 'uppercase', marginBottom: '8px' }}>Source Code</div>
             <div style={{ background: T.surface, padding: '12px', borderRadius: '8px', border: `1px solid ${T.border}`, fontFamily: 'Roboto Mono', fontSize: '11px', color: T.text, whiteSpace: 'pre', overflowX: 'auto', minHeight: '100px' }}>{currentScenario.code}</div>
@@ -262,18 +243,30 @@ export default function EventLoopSimulator() {
                <input type="range" min="1" max="10" value={speed} onChange={e => setSpeed(parseInt(e.target.value))} style={{ width: '100px', accentColor: T.accent, cursor: 'pointer' }} />
             </div>
 
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <button onClick={() => resetSimulator()} style={{ padding: '8px 16px', background: 'transparent', color: T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600, transition: 'all 0.2s' }}>Reset</button>
-              <button onClick={() => runTick(-1)} disabled={tickIdx === -1} style={{ padding: '8px 16px', background: 'transparent', color: tickIdx === -1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem' }}>Back</button>
-              <button onClick={() => runTick(1)} disabled={tickIdx >= currentScenario.ticks.length - 1} style={{ padding: '8px 16px', background: 'transparent', color: tickIdx >= currentScenario.ticks.length - 1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem' }}>Next</button>
-              <button onClick={() => { if (tickIdx >= currentScenario.ticks.length - 1) resetSimulator(); setIsPlaying(!isPlaying); }} style={{ padding: '8px 20px', background: isPlaying ? T.surface : T.accent, color: isPlaying ? T.text : '#fff', border: isPlaying ? `1px solid ${T.borderMid}` : 'none', borderRadius: '8px', fontSize: '0.8rem', fontWeight: 700, boxShadow: isPlaying ? 'none' : `0 4px 12px rgba(99,102,241,0.2)` }}>
-                {isPlaying ? 'Pause' : 'Auto Play'}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', width: '100%' }}>
+                <button onClick={() => resetSimulator()} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem', fontWeight: 600 }}>Reset</button>
+                <button onClick={() => runTick(-1)} disabled={tickIdx === -1} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: tickIdx === -1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem' }}>Back</button>
+                <button onClick={() => runTick(1)} disabled={tickIdx >= currentScenario.ticks.length - 1} style={{ flex: 1, maxWidth: '100px', padding: '10px 0', background: 'transparent', color: tickIdx >= currentScenario.ticks.length - 1 ? T.faint : T.text, border: `1px solid ${T.borderMid}`, borderRadius: '8px', fontSize: '0.8rem' }}>Next</button>
+              </div>
+              <button 
+                onClick={() => { if (tickIdx >= currentScenario.ticks.length - 1) resetSimulator(); setIsPlaying(!isPlaying); }} 
+                style={{ 
+                  width: '100%', maxWidth: '316px', padding: '12px 0', 
+                  background: isPlaying ? T.surface : T.accent, 
+                  color: isPlaying ? T.text : '#fff', 
+                  border: isPlaying ? `1px solid ${T.borderMid}` : 'none', 
+                  borderRadius: '8px', fontSize: '0.85rem', fontWeight: 700, 
+                  boxShadow: isPlaying ? 'none' : `0 4px 12px rgba(99,102,241,0.2)` 
+                }}
+              >
+                {isPlaying ? 'Pause Simulation' : 'Auto Play Simulation'}
               </button>
             </div>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '4px' }}>
+        <div style={{ display: 'flex', gap: '4px', marginTop: '24px' }}>
           <div style={{ flex: 1, height: '4px', background: T.accent, borderRadius: '2px' }} />
           {currentScenario.ticks.map((s, i) => (
             <div key={i} style={{ flex: 1, height: '4px', background: i <= tickIdx ? T.accent : T.borderMid, borderRadius: '2px', transition: 'background 0.3s' }} />
