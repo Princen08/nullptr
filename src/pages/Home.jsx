@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { T } from '../theme';
 import PostCard from '../components/PostCard';
-import { POSTS } from '../data/posts';
+import { POSTS, TOPICS } from '../data/posts';
 import HeroBackground from '../animation/HeroBackground';
 import SEO from '../components/SEO';
 import BinaryShadow from '../components/BinaryShadow';
@@ -162,6 +162,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Topics / Tags - Refined */}
+      <section style={{ 
+        background: T.surface, 
+        padding: '100px 24px', 
+        borderTop: `1px solid ${T.border}`, 
+        borderBottom: `1px solid ${T.border}`,
+        position: 'relative',
+        overflow: 'hidden'
+      }}>
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', background: `radial-gradient(circle at 10% 20%, ${hexToRgba(T.accent, 0.03)} 0%, transparent 40%)` }} />
+        <div className="container" style={{ position: 'relative' }}>
+          <h2 style={{ fontSize: '2.25rem', fontFamily: 'Poppins', fontWeight: 800, color: T.text, textAlign: 'center', marginBottom: '16px' }}>Filter by Domain</h2>
+          <p style={{ color: T.muted, textAlign: 'center', marginBottom: '48px', maxWidth: '500px', margin: '0 auto 48px auto' }}>Select a technical category to explore specific architectural patterns and implementations.</p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            {TOPICS.map(topic => (
+              <div key={topic} style={{ 
+                background: T.bg, 
+                border: `1px solid ${T.borderMid}`, 
+                padding: '12px 28px', 
+                borderRadius: '10px', 
+                color: T.text, 
+                fontWeight: 600, 
+                fontSize: '1rem', 
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)', 
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.05)'
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = T.accent;
+                e.currentTarget.style.transform = 'translateY(-4px)';
+                e.currentTarget.style.boxShadow = `0 10px 20px ${hexToRgba(T.accent, 0.1)}`;
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = T.borderMid;
+                e.currentTarget.style.transform = 'translateY(0)';
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)';
+              }}
+              >
+                {topic}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Newsletter - Refined Glassmorphism */}
       <section className="container" style={{ padding: '120px 24px' }}>

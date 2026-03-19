@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://www.nullptrtech.in/</loc>
+    <loc>https://nullptr.vercel.app/</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.nullptrtech.in/blog</loc>
+    <loc>https://nullptr.vercel.app/blog</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.nullptrtech.in/about</loc>
+    <loc>https://nullptr.vercel.app/about</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>https://www.nullptrtech.in/blog/dns-demystified</loc>
+    <loc>https://nullptr.vercel.app/blog/dns-demystified</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.nullptrtech.in/blog/tls-deep-dive</loc>
+    <loc>https://nullptr.vercel.app/blog/tls-deep-dive</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.nullptrtech.in/blog/event-loop-explained</loc>
+    <loc>https://nullptr.vercel.app/blog/event-loop-explained</loc>
     <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
