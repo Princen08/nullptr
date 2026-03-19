@@ -8,7 +8,10 @@ import DNSBlog from './pages/DNSBlog';
 import TLSBlog from './pages/TLSBlog';
 import EventLoopBlog from './pages/EventLoopBlog';
 import HuffmanBlog from './pages/HuffmanBlog';
+import WALBlog from './pages/WALBlog';
 import About from './pages/About';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import CommandPalette from './components/CommandPalette';
 import MemoryScrollbar from './components/MemoryScrollbar';
@@ -34,8 +37,11 @@ function App() {
                 <Route path="/blog/how-https-and-tls-work" element={<TLSBlog />} />
                 <Route path="/blog/event-loop-explained" element={<EventLoopBlog />} />
                 <Route path="/blog/huffman-coding-explained" element={<HuffmanBlog />} />
+                <Route path="/blog/write-ahead-logging" element={<WALBlog />} />
                 <Route path="/blog/:slug" element={<DNSBlog />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/privacy" element={<PrivacyPolicy />} />
+                <Route path="/terms" element={<Terms />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </main>

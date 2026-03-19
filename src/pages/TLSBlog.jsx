@@ -105,6 +105,10 @@ export default function TLSBlog() {
         <Para>
           HTTPS (Hypertext Transfer Protocol Secure) is the encrypted version of HTTP. It uses the Transport Layer Security (TLS) protocol to encrypt communications. This ensures <strong>Privacy</strong>, <strong>Integrity</strong>, and <strong>Authentication</strong>.
         </Para>
+        
+        <InfoCard type="tip" title="SSL vs TLS">
+          You frequently hear people refer to "SSL Certificates." Secure Sockets Layer (SSL) was the original encryption protocol built by Netscape in the 1990s. TLS is merely the renamed, modernized successor to SSL. Every version of SSL is officially deprecated and completely insecure today—when people say SSL, they almost universally mean TLS.
+        </InfoCard>
 
         <SectionHeading title="The TLS Layer Stack" tag="Architecture" />
         <Para>
@@ -130,12 +134,19 @@ export default function TLSBlog() {
         <SectionHeading title="AES-256-GCM: The Bulk Cipher" tag="Speed" />
         <Para>
           Once the shared secret is established, the handshake is over. For the actual data transfer, we switch to Symmetric Encryption (AES) because it is significantly faster than Asymmetric Math.
+          Using dedicated CPU instructions like <Code>AES-NI</Code>, modern processors can encrypt and decrypt continuous streams of bits at practically zero latency cost, allowing servers to theoretically push hundreds of gigabytes per second without CPU bottlenecking.
         </Para>
         <CodeBlock label="Modern Cipher Suite" code={`TLS_AES_256_GCM_SHA384
 - TLS: Protocol
 - AES_256: Symmetric Encryption
 - GCM: Mode of operation (Auth Tag)
 - SHA384: Hashing algorithm`} />
+
+        <SectionHeading title="The TLS 1.3 Revolution: 0-RTT" tag="Performance" />
+        <Para>
+          Before TLS 1.3, setting up a secure connection took two full round trips—a heavy penalty on high-latency mobile networks. The modern TLS 1.3 handshake finishes in just one round trip.
+          Even more impressively, if a client has spoken to a server recently, they can cache the negotiated parameters. The next time they connect, they can send encrypted application data immediately in their very first packet. This feature, known as <strong>Zero Round Trip Time Resumption (0-RTT)</strong>, fundamentally eliminated the performance penalty of HTTPS.
+        </Para>
 
         <SectionHeading title="Certificate Authorities & Trust" tag="Identity" />
         <Para>
@@ -147,7 +158,8 @@ export default function TLSBlog() {
 
         <SectionHeading title="Security Threats" tag="Dangers" />
         <Para>
-          While TLS is incredibly robust, it's not invincible. Attacks like <strong>Man-in-the-Middle (MITM)</strong> often target the trust chain (fake CAs) rather than the encryption math itself.
+          While TLS is incredibly robust, it's not invincible. Attacks like <strong>Man-in-the-Middle (MITM)</strong> often target the trust chain (fake CAs) rather than the encryption math itself. 
+          Additionally, with the inevitable rise of quantum computers, there are increasing concerns about "Harvest Now, Decrypt Later" strategies. To counter this risk, standard bodies are standardizing <strong>Post-Quantum Cryptography (PQC)</strong>, ensuring encryption schemes remain impervious to quantum decryption tools.
         </Para>
 
         <SectionHeading title="Conclusion" tag="Summary" />

@@ -475,7 +475,7 @@ export default function HuffmanBlog() {
     title: 'Huffman Coding Explained',
     subtitle: 'The Core Engine of GZIP & PNG Compression',
     tags: ['Algorithms', 'Compression'],
-    date: 'Mar 2026',
+    date: 'Mar 19, 2026',
     readTime: '10 min'
   };
 
@@ -492,6 +492,7 @@ export default function HuffmanBlog() {
         <SectionHeading title="Dynamic Precision" tag="Information Theory" />
         <Para>
           Why do we waste 8 bits on the letter 'e' and 8 bits on 'x'? In a typical English text, 'e' is 100x more common. Huffman coding fixes this by giving common symbols short binary codes and rare symbols longer ones.
+          This concept ties deeply into <strong>Entropy</strong> — the measure of unpredictability in information theory. In a perfect coding scheme, the length of a symbol's code is mathematically inversely proportional to its likelihood of appearance minus any inherent overhead.
         </Para>
         
         <InfoCard type="tip" title="Decodability Guarantee">
@@ -504,6 +505,9 @@ export default function HuffmanBlog() {
           <br />1. Count every character's frequency.
           <br />2. Treat each character as a leaf node.
           <br />3. Repeatedly merge the two nodes with the <strong>lowest weight</strong> until only one root node remains.
+        </Para>
+        <Para>
+          What happens when two characters have the exact same weight? Huffman's algorithm allows you to pick either one first. This means there can be multiple valid tree shapes for the identical string, but their total final compressed size will mathematically remain the exact same. To avoid random differences across computers, standardized encoders use <strong>Canonical Huffman Coding</strong> to ensure everyone builds the identical tree structure.
         </Para>
 
         <CodeBlock label="merger.js" code={`while (forest.length > 1) {
@@ -521,7 +525,8 @@ export default function HuffmanBlog() {
 
         <SectionHeading title="The DEFLATE Pipeline" tag="Real World" />
         <Para>
-          Standalone Huffman is great, but combined with LZ77, it becomes <strong>DEFLATE</strong>—the magic inside GZIP and ZIP files. LZ77 finds duplicate strings, and Huffman squeezes the result into the smallest possible bitstream.
+          Standalone Huffman is great, but combined with LZ77, it becomes <strong>DEFLATE</strong>—the magic inside GZIP and ZIP files. LZ77 finds duplicate strings using a sliding window context, transforming repetitive words into backward distance pointers (e.g., "go back 5 spaces and read 3 letters"). Then, Huffman coding aggressively squeezes that pointer stream and any remaining literals into the smallest possible bitstream.
+          The Web largely runs on this exact combination, transparently deflating HTTP payloads by 70-90% before transit.
         </Para>
 
         <InfoCard title="Why 1952 matters">

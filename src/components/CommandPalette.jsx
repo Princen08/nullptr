@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Fuse from 'fuse.js';
 import { T } from '../theme';
 import { POSTS } from '../data/posts';
 
@@ -16,16 +17,32 @@ export default function CommandPalette() {
   const navigate = useNavigate();
   const inputRef = useRef(null);
 
-  const filteredActions = [...ACTIONS, ...POSTS.map(p => ({
-    id: p.slug,
-    title: p.title,
-    section: 'Articles',
-    path: `/blog/${p.slug}`,
-    subtitle: p.excerpt.substring(0, 60) + '...'
-  }))].filter(action => 
-    action.title.toLowerCase().includes(search.toLowerCase()) ||
-    action.section.toLowerCase().includes(search.toLowerCase())
-  );
+  const allSearchable = useMemo(() => {
+    return [
+      ...ACTIONS,
+      ...POSTS.map(p => ({
+        id: p.slug,
+        title: p.title,
+        section: 'Articles',
+        path: `/blog/${p.slug}`,
+        subtitle: p.excerpt.substring(0, 60) + '...',
+        searchContent: ((p.subtitle || '') + ' ' + (p.excerpt || '') + ' ' + (p.tags ? p.tags.join(' ') : '') + ' ' + (p.content || '')).toLowerCase()
+      }))
+    ];
+  }, []);
+
+  const fuseActions = useMemo(() => new Fuse(allSearchable, {
+    keys: [
+      { name: 'title', weight: 2 },
+      { name: 'section', weight: 1.5 },
+      { name: 'searchContent', weight: 1 }
+    ],
+    threshold: 0.4
+  }), [allSearchable]);
+
+  const filteredActions = search.trim() 
+    ? fuseActions.search(search).map(res => res.item) 
+    : allSearchable;
 
   const handleClose = useCallback(() => setIsOpen(false), []);
 

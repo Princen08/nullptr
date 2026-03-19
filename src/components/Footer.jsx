@@ -45,6 +45,13 @@ export default function Footer() {
               <a href="#" style={{ color: T.muted, fontSize: '0.9rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = T.text} onMouseLeave={e => e.currentTarget.style.color = T.muted}>X / Twitter</a>
             </div>
           </div>
+          <div>
+            <h4 style={{ color: T.text, fontSize: '0.9rem', fontWeight: 700, marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>Legal</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <Link to="/privacy" style={{ color: T.muted, fontSize: '0.9rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = T.text} onMouseLeave={e => e.currentTarget.style.color = T.muted}>Privacy Policy</Link>
+              <Link to="/terms" style={{ color: T.muted, fontSize: '0.9rem', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = T.text} onMouseLeave={e => e.currentTarget.style.color = T.muted}>Terms & Conditions</Link>
+            </div>
+          </div>
         </div>
       </div>
 

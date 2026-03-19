@@ -35,7 +35,7 @@ export default function EventLoopBlog() {
           JavaScript is famously single-threaded. This means it has one Call Stack and one Memory Heap — it can do exactly one thing at a time. If you run a while loop for 10 seconds, the browser UI freezes because JavaScript cannot process clicks or paint the screen while the stack is busy.
         </Para>
         <Para>
-          However, we can still fetch data, play videos, and run timers without blocking. This magic isn't inside the JavaScript engine (like V8) itself. It's provided by the <strong>Runtime Environment</strong> (the Browser or Node.js). The Event Loop is the coordinator that bridges the gap between the core engine and these asynchronous Web APIs.
+          However, we can still fetch data, play videos, and run timers without blocking. This magic isn't inside the JavaScript engine (like V8) itself. It's provided by the <strong>Runtime Environment</strong> (the Browser or Node.js). The Event Loop is the coordinator that bridges the gap between the core engine and these asynchronous Web APIs. For instance, Node.js uses the robust <strong>libuv</strong> library in C++ to implement these async mechanisms across different operating systems.
         </Para>
 
         <SectionHeading title="The Call Stack" tag="The Engine" />
@@ -58,9 +58,11 @@ start();`} />
         <SectionHeading title="Web APIs: The Background Workers" tag="The Runtime" />
         <Para>
           When you call <Code>setTimeout</Code> or <Code>fetch</Code>, you aren't actually waiting in JS. You are handing off a task to the browser's C++ threads. The browser timer ticks independently, or the OS handle manages the networking. 
+          By completely delegating these blocking operations, the single JavaScript thread immediately continues executing the next line of code without delay.
         </Para>
         <Para>
-          Only when the background work is finished does the browser place your callback into a queue. But it doesn't just jump onto the stack! It must wait for the "Loop" to check if the stack is clear.
+          Only when the background work is finished does the browser place your callback into a queue. But it doesn't just jump onto the stack! It must wait for the "Loop" to check if the stack is clear. 
+          There are actually multiple queues running simultaneously such as the Message Queue, Microtask Queue, and Render Queue, each operating under strict engine priority rules.
         </Para>
 
         <SectionHeading title="Live Event Loop Simulator" tag="Interactive" />
@@ -72,11 +74,14 @@ start();`} />
 
         <SectionHeading title="Tasks vs Microtasks" tag="Prioritization" />
         <Para>
-          Not all queues are created equal. The Event Loop prioritizes <strong>Microtasks</strong> (Promises, async/await) over <strong>Tasks</strong> (setTimeout, Events).
+          Not all queues are created equal. The Event Loop prioritizes <strong>Microtasks</strong> (Promises, async/await, <Code>queueMicrotask</Code>) over <strong>Tasks</strong> (setTimeout, setInterval, UI Events).
         </Para>
         <InfoCard title="The Golden Rule" type="accent">
           After every single task finishes, the engine MUST drain the <strong>entire</strong> microtask queue before picking the next task. If a microtask adds another microtask, that one runs too.
         </InfoCard>
+        <Para>
+          This leads directly to a phenomenon called <strong>Task Queue Starvation</strong>. If you continuously add microtasks (for instance, a recursive Promise chain), the browser will remain perfectly locked in Step 2 of the Event Loop Tick. It will never proceed to rendering or executing user clicks, entirely freezing the page.
+        </Para>
 
         <SectionHeading title="async/await Demystified" tag="Sugar" />
         <Para>
@@ -106,6 +111,10 @@ function run() {
           <li>Pick exactly <strong>ONE</strong> task from the Task Queue.</li>
           <li>Repeat.</li>
         </ol>
+
+        <InfoCard type="warning" title="Unhandled Promise Rejections">
+          Because Promises resolve asynchronously in the Microtask queue, traditional <Code>try/catch</Code> blocks around asynchronous function calls without <Code>await</Code> will entirely miss the error. The error will bubble up directly to the global <Code>unhandledrejection</Code> event on the Window, potentially crashing Node.js servers entirely down the line.
+        </InfoCard>
 
         <SectionHeading title="Common Gotchas" tag="FAQ" />
         <InfoCard title="Why does Promise run before setTimeout(0)?" type="info">
