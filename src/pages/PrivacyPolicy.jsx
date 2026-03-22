@@ -42,7 +42,7 @@ export default function PrivacyPolicy() {
       <section style={{ marginBottom: '48px' }}>
         <h2 style={{ fontSize: '1.5rem', fontFamily: 'Poppins', fontWeight: 700, marginBottom: '16px', color: T.text }}>3. Tracking Technologies</h2>
         <p style={{ color: T.text, fontSize: '1.05rem', lineHeight: 1.8, marginBottom: '16px' }}>
-          We utilize Vercel Analytics and basic telemetry dashboards internally to understand which articles are resonating with our readers. This analytics tooling is anonymized and does not track identifiable personal footprint histories.
+          We utilize Vercel Analytics internally to understand which articles are resonating with our readers. This analytics tooling is anonymized and does not track identifiable personal footprint histories.
         </p>
       </section>
 

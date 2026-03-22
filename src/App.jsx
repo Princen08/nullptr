@@ -15,12 +15,10 @@ import Terms from './pages/Terms';
 import NotFound from './pages/NotFound';
 import CommandPalette from './components/CommandPalette';
 import MemoryScrollbar from './components/MemoryScrollbar';
-import TelemetryDashboard from './components/TelemetryDashboard';
 
 function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <TelemetryDashboard />
       
       <Routes>
         {/* Full screen 404 - no Nav/Footer */}
