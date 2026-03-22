@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Fuse from 'fuse.js';
 import { T } from '../theme';
 import { POSTS } from '../data/posts';
 
@@ -26,23 +25,19 @@ export default function CommandPalette() {
         section: 'Articles',
         path: `/blog/${p.slug}`,
         subtitle: p.excerpt.substring(0, 60) + '...',
-        searchContent: ((p.subtitle || '') + ' ' + (p.excerpt || '') + ' ' + (p.tags ? p.tags.join(' ') : '') + ' ' + (p.content || '')).toLowerCase()
       }))
     ];
   }, []);
 
-  const fuseActions = useMemo(() => new Fuse(allSearchable, {
-    keys: [
-      { name: 'title', weight: 2 },
-      { name: 'section', weight: 1.5 },
-      { name: 'searchContent', weight: 1 }
-    ],
-    threshold: 0.4
-  }), [allSearchable]);
-
-  const filteredActions = search.trim() 
-    ? fuseActions.search(search).map(res => res.item) 
-    : allSearchable;
+  const filteredActions = useMemo(() => {
+    if (!search.trim()) return allSearchable;
+    const term = search.toLowerCase().trim();
+    return allSearchable.filter(item => 
+      item.title.toLowerCase().includes(term) ||
+      (item.section && item.section.toLowerCase().includes(term)) ||
+      (item.subtitle && item.subtitle.toLowerCase().includes(term))
+    );
+  }, [search, allSearchable]);
 
   const handleClose = useCallback(() => setIsOpen(false), []);
 

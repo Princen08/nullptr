@@ -1,6 +1,4 @@
-import searchIndex from './searchIndex.json';
-
-const RAW_POSTS = [
+const POSTS = [
   { 
     slug: 'huffman-coding-explained', 
     title: 'How Huffman Coding Works', 
@@ -50,17 +48,14 @@ const RAW_POSTS = [
     slug: 'write-ahead-logging', 
     title: 'Write-Ahead Logging (WAL)', 
     subtitle: 'How Databases Survive Power Failures',
-    excerpt: 'A deep architectural dive into the backbone of database durability. Learn how Postgres, MySQL, and Kafka guarantee data integrity through append-only logs.', 
+    excerpt: 'A architectural dive into the backbone of database durability. Learn how Postgres, MySQL, and Kafka guarantee data integrity through append-only logs.', 
     tags: ['Databases', 'Internals', 'Architecture'], 
     readTime: '15 min', 
     date: 'Mar 18, 2026' 
   }
 ];
 
-export const POSTS = RAW_POSTS.map(p => ({
-  ...p,
-  content: searchIndex[p.slug] || ''
-}));
+export { POSTS };
 
 export const TOPICS = ['DNS', 'Security', 'OS Internals', 'Web', 'Algorithms', 'DevTools', 'Databases'];
 export const CATEGORIES = ['All', 'Networking', 'Security', 'OS', 'Web', 'DNS', 'Internals', 'Databases', 'Architecture'];

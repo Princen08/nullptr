@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import Fuse from 'fuse.js';
 import PostCard from '../components/PostCard';
 import { T } from '../theme';
 import { POSTS, CATEGORIES } from '../data/posts';
@@ -10,27 +9,21 @@ export default function Blog() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All');
 
-  const fusePosts = useMemo(() => new Fuse(POSTS, {
-    keys: [
-      { name: 'title', weight: 2 },
-      { name: 'tags', weight: 1.5 },
-      { name: 'excerpt', weight: 1 },
-      { name: 'content', weight: 0.5 }
-    ],
-    threshold: 0.35, 
-    distance: 100
-  }), []);
-
   const filteredPosts = useMemo(() => {
     let result = POSTS;
     if (search.trim()) {
-      result = fusePosts.search(search).map(res => res.item);
+      const searchTerm = search.toLowerCase().trim();
+      result = result.filter(post => 
+        post.title.toLowerCase().includes(searchTerm) || 
+        post.excerpt.toLowerCase().includes(searchTerm) ||
+        post.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+      );
     }
     if (category !== 'All') {
       result = result.filter(post => post.tags.includes(category));
     }
     return result;
-  }, [search, category, fusePosts]);
+  }, [search, category]);
 
   return (
     <div className="container" style={{ padding: '64px 24px 120px 24px' }}>
